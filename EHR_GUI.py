@@ -1,3 +1,5 @@
+import os
+os.system("conda activate -n datadesign")
 import streamlit as st
 from annotated_text import util
 from streamlit_timeline import st_timeline
@@ -21,7 +23,7 @@ st.sidebar.markdown("## Input files") #side bar name
 my_upload = st.sidebar.file_uploader("Upload an file or a folder", type=["csv"]) #file upload panel
 
 #default path to load current data
-default_upload = "D:/GitHub/nlpsumm/GUI/corpus_test.csv"
+default_upload = "corpus_test.csv"
 
 select_event = None
 if my_upload is not None: # if there is no new data, show the old processed csv
