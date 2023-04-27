@@ -1,5 +1,3 @@
-import os
-os.system("conda activate -n datadesign")
 import streamlit as st
 from annotated_text import util
 from streamlit_timeline import st_timeline
@@ -72,8 +70,6 @@ if select_event is not None:
     for i in range(xldf["TimeID"].shape[0]):
         tf = [x in le(xldf["Pred_tag_doc"].iloc[i]) for x in all_cat]
         # here change the value to reflect true categories for each docu
-        # dat_doc.insert(loc=i, column=xldf["TimeID"].iloc[i], value=tf)
-
         dat_doc.insert(loc=i, column=filetime_list[i], value=tf)
     df = pd.concat([dat_doc, dat_cat], axis = 1)
 
@@ -106,14 +102,12 @@ if select_event is not None:
     
     # make check box
     gd = GridOptionsBuilder.from_dataframe(df)
-    #gd.configure_pagination(enabled = True) 
     gd.configure_default_column(groupable = False)
     gd.configure_column("Category", minWidth=150, maxWidth=150, suppressMovable=True)
     #pin the first column
     gd.configure_column("Category", pinned='left', lockPinned=True)
 
     for i in range(len(filetime_list)):
-        # gd.configure_column(xldf["TimeID"].iloc[i], editable=True, cellRenderer=checkbox_renderer, resizable=True, suppressMovable=True)
         gd.configure_column(filetime_list[i], editable=True, cellRenderer=checkbox_renderer, resizable=True, suppressMovable=True)
     gd.configure_selection(selection_mode = 'multiple', use_checkbox = False)
     
@@ -127,12 +121,12 @@ if select_event is not None:
             data_return_mode="as_input",
             update_mode="grid_changed")
     
-    # update the hight based on check box changes
+    # update the session_state based on check box changes so the website can update
     if "df" not in st.session_state:
         st.session_state.df = df
     
     st.session_state.df = ag_grid["data"]
-    ## apparant bug: category column changed locatioin!!! affect the num+1 -> num down below
+
 
     # make timeline
     items = []
@@ -144,7 +138,6 @@ if select_event is not None:
         "height": '200px',
         "moveable": False,
         "zoomable": False,
-        # "end": len(items),
         "timeAxis": {"scale": "year", "step": 1}
     }
     timeline = st_timeline(items, groups=[], options=opts)
@@ -155,10 +148,12 @@ if select_event is not None:
     if timeline is not None:
         st.subheader("Health Record: "+timeline["content"])
         num = filetime_list.index(timeline["content"])
+
         ## get what check box is selected for a document
         if "selected_rows_array" not in st.session_state:
             st.session_state.selected_rows_array = []
         st.session_state.selected_rows_array = st.session_state.df.iloc[:,num].array
+        ## check if the array matched the checkbox. if not, check box changed and re-run the website
         if not np.array_equal(st.session_state.selected_rows_array, st.session_state.df.iloc[:,num].array):
             st.session_state.selected_rows_array = st.session_state.df.iloc[:,num+1].array
             st.experimental_rerun()
@@ -219,17 +214,18 @@ if select_event is not None:
             
         else:
             ## get original text
-            # raw_text = xldf["RawText"].iloc[num]
-            # nt = re.sub('\n',' ',raw_text)
-            # nt = re.sub('\t',' ',nt)  
-            # nt = re.sub('"',"'",nt)
-            # nt = re.sub('>','&gt;',nt) 
-            # nt = re.sub('<','&lt;',nt)
-            # nt = re.sub('Â',' ',nt)
-            # nt = re.sub('â',' ',nt)
-            # nt = re.sub('€',' ',nt)
-            # nt = re.sub('™',' ',nt)
-            # words = nt.strip().split()
+            #raw_text = xldf["RawText"].iloc[num]
+            #nt = re.sub('\n','XN',raw_text)
+            #nt = re.sub('\t',' ',nt)  
+            #nt = re.sub('"',"'",nt)
+            #nt = re.sub('>','&gt;',nt) 
+            #nt = re.sub('<','&lt;',nt)
+            #nt = re.sub('Â',' ',nt)
+            #nt = re.sub('â',' ',nt)
+            #nt = re.sub('€',' ',nt)
+            #nt = re.sub('™',' ',nt)
+            #words = nt.strip().split()
+            #words = list(map(lambda x: x.replace('XN', '<br />'), words))
             
 
             text = xldf["CleanedText"].iloc[num]
