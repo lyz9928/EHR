@@ -168,46 +168,54 @@ if select_event is not None:
             words = text.strip().split()
 
             ## get word bags
-            word_bag = [i for i in le(xldf["Pred_text_tag"].iloc[num]) if i.split()[2]!="O"]
-            wlcad = [i.split()[0] for i in word_bag if i.split()[2]=="CAD"]
-            wlsmo = [i.split()[0] for i in word_bag if i.split()[2]=="SMOKER"]
-            wlmed = [i.split()[0] for i in word_bag if i.split()[2]=="MEDICATION"]
-            wlten = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERTENSION"]
-            wldia = [i.split()[0] for i in word_bag if i.split()[2]=="DIABETES"]
-            wllip = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERLIPIDEMIA"]
-            wlobe = [i.split()[0] for i in word_bag if i.split()[2]=="OBESE"]
-            wlfmh = [i.split()[0] for i in word_bag if i.split()[2]=="FAMILY_HIST"]
+            # word_bag = [i for i in le(xldf["Pred_text_tag"].iloc[num]) if i.split()[2]!="O"]
+            # wlcad = [i.split()[0] for i in word_bag if i.split()[2]=="CAD"]
+            # wlsmo = [i.split()[0] for i in word_bag if i.split()[2]=="SMOKER"]
+            # wlmed = [i.split()[0] for i in word_bag if i.split()[2]=="MEDICATION"]
+            # wlten = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERTENSION"]
+            # wldia = [i.split()[0] for i in word_bag if i.split()[2]=="DIABETES"]
+            # wllip = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERLIPIDEMIA"]
+            # wlobe = [i.split()[0] for i in word_bag if i.split()[2]=="OBESE"]
+            # wlfmh = [i.split()[0] for i in word_bag if i.split()[2]=="FAMILY_HIST"]
             
-            to_be_tag = {"CAD": wlcad,
-                        "SMOKER": wlsmo,
-                        "MEDICATION": wlmed,
-                        "HYPERTENSION": wlten,
-                        "DIABETES": wldia,
-                        "FAMILY_HIST": wlfmh,
-                        "OBESE": wlobe,
-                        "HYPERLIPIDEMIA": wllip}
+            # to_be_tag = {"CAD": wlcad,
+            #             "SMOKER": wlsmo,
+            #             "MEDICATION": wlmed,
+            #             "HYPERTENSION": wlten,
+            #             "DIABETES": wldia,
+            #             "FAMILY_HIST": wlfmh,
+            #             "OBESE": wlobe,
+            #             "HYPERLIPIDEMIA": wllip}
             annotated = []
 
-            for i in words:
-                for c in categories:
-                    if c == "CAD":
-                        color = "#8ef"
-                    elif c == "SMOKER":
-                        color = "#faa"
-                    elif c == "MEDICATION":
-                        color = "#fea"
-                    elif c == "HYPERTENSION":
-                        color = "#afa"
-                    elif c == "DIABETES":
-                        color = "#faf"
-                    elif c == "HYPERLIPIDEMIA":
-                        color = "#48929b"
-                    elif c == "OBESE":
-                        color = "#69c"
-                    elif c == "FAMILY_HIST":
-                        color = "#664444"
-                                            
-                add = i+' '
+            for i,word in enumerate(words):
+                if le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "CAD":
+                    color = "#8ef"
+                    add = (word+' ', "CAD", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "SMOKER":
+                    color = "#faa"
+                    add = (word+' ', "SMOKER", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "MEDICATION":
+                    color = "#fea"
+                    add = (word+' ', "MEDICATION", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "HYPERTENSION":
+                    color = "#afa"
+                    add = (word+' ', "HYPERTENSION", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "DIABETES":
+                    color = "#faf"
+                    add = (word+' ', "DIABETES", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "HYPERLIPIDEMIA":
+                    color = "#48929b"
+                    add = (word+' ', "HYPERLIPIDEMIA", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "OBESE":
+                    color = "#69c"
+                    add = (word+' ', "OBESE", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "FAMILY_HIST":
+                    color = "#664444"
+                    add = (word+' ', "FAMILY_HIST", color)
+                else:
+                    add = word+' '
+
                 annotated.append(add)
             tt = util.get_annotated_html(annotated)
             html(tt, height=700, scrolling=True)
@@ -232,50 +240,83 @@ if select_event is not None:
             words = text.strip().split()
 
             ## get word bags
-            word_bag = [i for i in le(xldf["Pred_text_tag"].iloc[num]) if i.split()[2]!="O"]
-            wlcad = [i.split()[0] for i in word_bag if i.split()[2]=="CAD"]
-            wlsmo = [i.split()[0] for i in word_bag if i.split()[2]=="SMOKER"]
-            wlmed = [i.split()[0] for i in word_bag if i.split()[2]=="MEDICATION"]
-            wlten = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERTENSION"]
-            wldia = [i.split()[0] for i in word_bag if i.split()[2]=="DIABETES"]
-            wllip = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERLIPIDEMIA"]
-            wlobe = [i.split()[0] for i in word_bag if i.split()[2]=="OBESE"]
-            wlfmh = [i.split()[0] for i in word_bag if i.split()[2]=="FAMILY_HIST"]
+            # word_bag = [i for i in le(xldf["Pred_text_tag"].iloc[num]) if i.split()[2]!="O"]
+            # wlcad = [i.split()[0] for i in word_bag if i.split()[2]=="CAD"]
+            # wlsmo = [i.split()[0] for i in word_bag if i.split()[2]=="SMOKER"]
+            # wlmed = [i.split()[0] for i in word_bag if i.split()[2]=="MEDICATION"]
+            # wlten = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERTENSION"]
+            # wldia = [i.split()[0] for i in word_bag if i.split()[2]=="DIABETES"]
+            # wllip = [i.split()[0] for i in word_bag if i.split()[2]=="HYPERLIPIDEMIA"]
+            # wlobe = [i.split()[0] for i in word_bag if i.split()[2]=="OBESE"]
+            # wlfmh = [i.split()[0] for i in word_bag if i.split()[2]=="FAMILY_HIST"]
             
-            to_be_tag = {"CAD": wlcad,
-                        "SMOKER": wlsmo,
-                        "MEDICATION": wlmed,
-                        "HYPERTENSION": wlten,
-                        "DIABETES": wldia,
-                        "FAMILY_HIST": wlfmh,
-                        "OBESE": wlobe,
-                        "HYPERLIPIDEMIA": wllip}
+            # to_be_tag = {"CAD": wlcad,
+            #             "SMOKER": wlsmo,
+            #             "MEDICATION": wlmed,
+            #             "HYPERTENSION": wlten,
+            #             "DIABETES": wldia,
+            #             "FAMILY_HIST": wlfmh,
+            #             "OBESE": wlobe,
+            #             "HYPERLIPIDEMIA": wllip}
+
             annotated = []
 
-            for i in words:
-                for c in categories:
-                    if c == "CAD":
-                        color = "#8ef"
-                    elif c == "SMOKER":
-                        color = "#faa"
-                    elif c == "MEDICATION":
-                        color = "#fea"
-                    elif c == "HYPERTENSION":
-                        color = "#afa"
-                    elif c == "DIABETES":
-                        color = "#faf"
-                    elif c == "HYPERLIPIDEMIA":
-                        color = "#48929b"
-                    elif c == "OBESE":
-                        color = "#69c"
-                    elif c == "FAMILY_HIST":
-                        color = "#664444"
-                    if i in to_be_tag[c]:
-                        add = (i+' ', c, color)
-                        break
-                    else:
-                        add = i+' '
+            # for i in words:
+            #     for c in categories:
+            #         if c == "CAD":
+            #             color = "#8ef"
+            #         elif c == "SMOKER":
+            #             color = "#faa"
+            #         elif c == "MEDICATION":
+            #             color = "#fea"
+            #         elif c == "HYPERTENSION":
+            #             color = "#afa"
+            #         elif c == "DIABETES":
+            #             color = "#faf"
+            #         elif c == "HYPERLIPIDEMIA":
+            #             color = "#48929b"
+            #         elif c == "OBESE":
+            #             color = "#69c"
+            #         elif c == "FAMILY_HIST":
+            #             color = "#664444"
+            #         if i in to_be_tag[c]:
+            #             add = (i+' ', c, color)
+            #             break
+            #         else:
+            #             add = i+' '
+            #     annotated.append(add)
+            
+            for i,word in enumerate(words):
+                if le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "CAD":
+                    color = "#8ef"
+                    add = (word+' ', "CAD", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "SMOKER":
+                    color = "#faa"
+                    add = (word+' ', "SMOKER", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "MEDICATION":
+                    color = "#fea"
+                    add = (word+' ', "MEDICATION", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "HYPERTENSION":
+                    color = "#afa"
+                    add = (word+' ', "HYPERTENSION", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "DIABETES":
+                    color = "#faf"
+                    add = (word+' ', "DIABETES", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "HYPERLIPIDEMIA":
+                    color = "#48929b"
+                    add = (word+' ', "HYPERLIPIDEMIA", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "OBESE":
+                    color = "#69c"
+                    add = (word+' ', "OBESE", color)
+                elif le(xldf["Pred_text_tag"].iloc[num])[i].split()[2] == "FAMILY_HIST":
+                    color = "#664444"
+                    add = (word+' ', "FAMILY_HIST", color)
+                else:
+                    add = word+' '
+
                 annotated.append(add)
+    
+
             tt = util.get_annotated_html(annotated)
             html(tt, height=700, scrolling=True)
     else:
