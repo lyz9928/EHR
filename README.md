@@ -13,4 +13,5 @@ conda activate streamlit
 ### Run the script
 cd [Path-to-Github]/EHR
 streamlit run EHR_GUI.py
-Then upload the corpus_test.csv into the website
+
+### Then upload the corpus_test.csv into the website
